@@ -49,13 +49,32 @@ def phase1_decrypt(text, key):
 def encrypt(text, key):
     """Master encrypt — all 5 phases."""
     result = phase1_encrypt(text, key)
-    # TODO: Phases 2-5
+    result = phase2_encrypt(result, key)
     return result
 
 def decrypt(text, key):
     """Master decrypt — reverse all phases."""
     result = text
-    # TODO: Phases 5-2
+    result = phase2_decrypt(result, key)
     result = phase1_decrypt(result, key)
     return result
+  
+def phase2_encrypt(text, key):
+  block_size = key.get("block_size", 4)
+  result = ""
+  
+  for i in range(0, len(text), block_size):
+    block = text[i:i + block_size]
+    result += block[::-1]
+  
+  return result
 
+def phase2_decrypt(text, key):
+  block_size = key.get("block_size", 4)
+  result = ""
+  
+  for i in range(0, len(text), block_size):
+    block = text[i:i + block_size]
+    result += block[::-1]
+    
+  return result
