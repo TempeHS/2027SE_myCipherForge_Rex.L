@@ -18,56 +18,44 @@ RULES:
   - decrypt(encrypt(message)) MUST return the original message
 """
 
+def phase1_encrypt(text, key):
+  shift = key.get("shift", 5)
+  
+  result = ""
+  for char in text:
+    if 32 <= ord(char) <= 126:
+      position = ord(char) - 32
+      new_position = (position + shift) % 95
+      result += chr(new_position + 32)
+    else:
+      result += char
+      
+  return result
 
+def phase1_decrypt(text, key):
+  shift = key.get("shift", 5)
+  
+  result = ""
+  for char in text: 
+    if 32 <= ord(char) <= 126:
+      position = ord(char) - 32
+      new_position = (position - shift) % 95
+      result += chr(new_position + 32)
+    else:
+      result += char
+  
+  return result
 
-def simple_shift(text, shift):
-    """
-    Shift every character by 'shift' positions.
-    
-    This is a simple Caesar cipher that works on ALL printable characters,
-    not just letters. It wraps around using modular arithmetic.
-    
-    Args:
-        text: The string to encrypt
-        shift: How many positions to shift (positive = forward)
-    
-    Returns:
-        The encrypted string
-    """
-    result = ""
-    
-    for char in text:
-        if 32 <= ord(char) <= 126:  # Printable ASCII range
-            # Convert to 0-94 range
-            position = ord(char) - 32
-            # Shift and wrap
-            new_position = (position + shift) % 95
-            # Convert back to character
-            result += chr(new_position + 32)
-        else:
-            # Keep non-printable characters unchanged
-            result += char
-    
+def encrypt(text, key):
+    """Master encrypt — all 5 phases."""
+    result = phase1_encrypt(text, key)
+    # TODO: Phases 2-5
     return result
-  
-def simple_unshift(text, shift):
-    """
-    Reverse the simple_shift encryption.
-    
-    Decryption is just shifting in the opposite direction!
-    
-    Args:
-        text: The encrypted string
-        shift: The same shift value used for encryption
-    
-    Returns:
-        The decrypted (original) string
-    """
-    # Decryption = shifting backwards (negative)
-    return simple_shift(text, -shift)
-  
-message = "Cold enough for snow"
-encrypted = simple_shift(message, 10)
-print(encrypted)
 
-print(simple_shift(encrypted, -10))
+def decrypt(text, key):
+    """Master decrypt — reverse all phases."""
+    result = text
+    # TODO: Phases 5-2
+    result = phase1_decrypt(result, key)
+    return result
+
