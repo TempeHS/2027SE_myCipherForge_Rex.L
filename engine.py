@@ -50,11 +50,13 @@ def encrypt(text, key):
     """Master encrypt — all 5 phases."""
     result = phase1_encrypt(text, key)
     result = phase2_encrypt(result, key)
+    result = phase3_encrypt(result, key)
     return result
 
 def decrypt(text, key):
     """Master decrypt — reverse all phases."""
     result = text
+    result = phase3_decrypt(result, key)
     result = phase2_decrypt(result, key)
     result = phase1_decrypt(result, key)
     return result
@@ -78,3 +80,52 @@ def phase2_decrypt(text, key):
     result += block[::-1]
     
   return result
+
+def phase3_encrypt(text, key):
+  password = key.get("password", "SECRET")
+  result = ""
+  
+  for i, char in enumerate(text):
+    if 32 <= ord(char) <= 126:
+      password_char = password[i % len(password)]
+      password_shift = ord(password_char) % 95
+      
+      position = ord(char) - 32
+      new_position = (position + password_shift) % 95
+      result += chr(new_position + 32)
+    else:
+      result += char
+  return result
+
+def phase3_decrypt(text, key):
+    """
+    Phase 3: Reverse the password-dependent encryption.
+    
+    CRITICAL: Must use the SAME password that was used for encryption!
+    Wrong password = garbage output.
+    
+    Args:
+        text: The encrypted string
+        key: Dictionary with the SAME password used for encryption
+        
+    Returns:
+        The decrypted string (if password is correct)
+    """
+    password = key.get("password", "SECRET")
+    
+    result = ""
+    
+    for i, char in enumerate(text):
+        if 32 <= ord(char) <= 126:
+            # Get same password character for this position
+            password_char = password[i % len(password)]
+            password_shift = ord(password_char) % 95
+            
+            # SUBTRACT the shift to reverse encryption
+            position = ord(char) - 32
+            new_position = (position - password_shift) % 95
+            result += chr(new_position + 32)
+        else:
+            result += char
+    
+    return result
