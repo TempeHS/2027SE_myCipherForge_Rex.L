@@ -1,59 +1,79 @@
-# Project Title
+# 🔐 CipherForge
 
-Simple overview of use/purpose.
+A 5-phase encryption algorithm built from scratch in Python.
 
-## Description
+## 📋 Description
 
-An in-depth paragraph about your project and overview of use.
+CipherForge is an educational encryption system that demonstrates how real-world encryption algorithms like AES work. It applies 5 layers of transformation to convert plaintext into unreadable ciphertext.
 
-## Getting Started
+## ✨ Features
 
-### Dependencies
+- **5-phase encryption pipeline**
+- **Web interface** for easy encryption/decryption
+- **Key-based security** with trillions of combinations
+- **Automated test suite** for verification
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+## 🔧 The 5 Phases
 
-### Installing
+| Phase | Name            | Description                             |
+| ----- | --------------- | --------------------------------------- |
+| 1     | Substitution    | Shifts all characters by a fixed amount |
+| 2     | Transposition   | Reverses characters in blocks           |
+| 3     | Key-Dependent   | Uses password for variable shifting     |
+| 4     | Noise Injection | Adds decoy characters                   |
+| 5     | Wild Card       | [YOUR DESCRIPTION HERE]                 |
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+## 🚀 Getting Started
 
-### Executing program
+### Run in Codespaces
 
-* How to run the program
-* Step-by-step bullets
+1. Click **Code** → **Codespaces** → **Create codespace**
+2. Wait for environment to load
+3. Run: `python app.py`
+4. Open the Ports tab and click the globe icon for port 5000
+
+### Run Tests
+
+```bash
+python test_engine.py
 ```
-code blocks for commands
+
+## 🔑 Key Format
+
+The encryption key is a dictionary with these fields:
+
+```python
+key = {
+    "shift": 5,              # Phase 1: shift amount (1-94)
+    "block_size": 4,         # Phase 2: block size (2-20)
+    "password": "SECRET",    # Phase 3: encryption password
+    "noise_interval": 3,     # Phase 4: insert noise every N chars
+    "noise_char": "~"        # Phase 4: noise character to insert
+}
 ```
 
-## Help
+## 📊 Security Analysis
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+### Strengths
 
-## Authors
+- Multi-layer encryption defeats simple attacks
+- Password-based encryption provides large key space
+- Noise injection defeats frequency analysis
 
-Contributors names and contact info
+### Weaknesses (Educational Context)
 
-ex. Mr Jones
-ex. [@benpaddlejones](https://github.com/benpaddlejones)
+- Not mathematically proven like AES
+- Smaller key space than production encryption
+- Vulnerable to known-plaintext attacks with enough samples
 
-## Version History
+## 📝 License
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]() or see [branch]()
-* 0.1
-    * Initial Release
+MIT License - see [LICENSE](LICENSE) file
 
-## License
+## 👤 Author
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+[YOUR NAME] - [YOUR SCHOOL] - 2026
 
-## Acknowledgments
+---
 
-Inspiration, code snippets, etc.
-* [Github md syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-* [TempeHS Python Flask template](https://github.com/TempeHS/TempeHS_Python-Flask_DevContainer)
+_Built as part of Year 9 Digital Technologies_
